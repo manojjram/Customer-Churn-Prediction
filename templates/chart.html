@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Tailwind CSS-->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <script src="/static/js/RGraph.common.core.js"></script>
+    <script src='/static/js/Chart.min.js'></script>
+    <script src="/static/js/RGraph.common.dynamic.js"></script>
+    <script src="/static/js/RGraph.common.context.js"></script>
+    <script src="/static/js/RGraph.common.annotate.js"></script>
+    <script src="/static/js/RGraph.bar.js"></script>
+    <script src="/static/js/RGraph.meter.js"></script>
+    <title>Result</title>
+</head>
+
+<body>
+    <!--Header-->
+    <header class="text-gray-600 body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+          <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-3xl text-purple-900 ">Customer Churn Prediction</span>
+          </a>
+          <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+            <a href="/" class="mr-5 hover:text-gray-900">Home</a>
+            <a href="/analysis" class="mr-5 hover:text-gray-900">Analysis</a>
+            <a href="/prediction" s="mr-5 hover:text-gray-900">Prediction</a>
+          </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 ">
+                <div class="card border-success mb-3" style="max-width: 30rem;">
+                    <div class="card-header">Customer Details</div>
+                    <div class="card-body text-success">
+                        <h4 class="card-title">CustomerID: {{cid}}</h4>
+                        <div class="list-group">
+                            <button type="button" class="list-group-item list-group-item-action active">
+                                Personal Details
+                            </button>
+                            <button type="button" class="list-group-item list-group-item-action">Name : {{name}}</button>
+                            <button type="button" class="list-group-item list-group-item-action">Gender: {{gender}}</button>
+                            <button type="button" class="list-group-item list-group-item-action">Age: {{age}}</button>
+                            <button type="button" class="list-group-item list-group-item-action">Region Category : {{region_category_st}}</button>
+                            <button type="button" class="list-group-item list-group-item-action">Membership Category : {{membership_category}}</button>
+                            <button type="button" class="list-group-item list-group-item-action">Avg Transaction Value : {{avg_transaction_value}}</button>
+                            <button type="button" class="list-group-item list-group-item-action">Complaint Status : {{complaint_status_st}}</button>
+                            <button type="button" class="list-group-item list-group-item-action">Points in Wallet : {{points_in_wallet}}</button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-success mb-3" style="max-width: 35rem;">
+                    <div class="card-header">Churn Prediction Details</div>
+                    <div class="card-body text-success">
+                        <h5 class="card-title">Churn Risk Score : {{prediction}}</h5>
+                        <h5 class="card-title">Churn Rate</h5>
+                        <canvas id="cvs">
+                            [No canvas support]
+                        </canvas>
+                        <centre>
+                            <h3>Probability to leave organization is {{ prediction_percent }}%</h3>
+                        </centre>
+                        
+                    </div>
+                </div>
+                <div class="card border-success mb-3" style="max-width: 35rem;">
+                    <div class="card-header">Possible Leaving Details</div>
+                    <div class="card-body text-success">
+                      <h5 class="card-title">Feedback</h5>
+                        <centre><h3>{{feedback_st}}</h3></centre>
+                    </div>
+                  </div>  
+
+            </div>
+
+        </div>
+
+    </div>
+
+    
+    <script>
+
+        meter = new RGraph.Meter({
+            id: 'cvs',
+            min: 0,
+            max: 100,
+            value: '{{prediction_percent}}',
+            options: {
+                segmentRadiusStart: 125,
+                needleRadius: 115,
+                needleType: 'pointer',
+                tickmarksBigColor: 'transparent',
+                tickmarksSmallColor: 'transparent',
+                labels: false,
+                linewidth: 0.0001,
+                linewidthSegments: 20,
+                strokestyle: 'white',
+                
+                colorsRanges: [
+                    [0, 33, '#8FCE21'],
+                    [33, 66, '#FFC900'],
+                    [66, 100, '#FF0000']
+                ]
+            }
+        }).grow();
+
+    </script>
+    
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    
+</body>
+
+</html>
